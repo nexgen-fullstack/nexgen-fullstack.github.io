@@ -156,9 +156,11 @@ html:not(.js) .loader { display: none; }
   color: #fff;
   background: linear-gradient(123deg, var(--b1) 7%, var(--b2) 37%, var(--b3) 72%, var(--b4) 100%);
   background-size: 160% 160%;
-  box-shadow: 0 10px 34px -12px var(--bglow), inset 4px 4px 12px var(--b2);
-  outline: 2px solid rgba(255, 255, 255, .9); outline-offset: -3px;
+  box-shadow: 0 8px 24px -16px var(--bglow), inset 3px 3px 10px rgba(255, 255, 255, .08);
+  outline: 1.5px solid rgba(255, 255, 255, .5); outline-offset: -3px;
+  filter: saturate(.86) brightness(.95);  /* calm at rest, full colour on hover / tap */
   animation: gradShift 6s ease-in-out infinite; animation-delay: var(--bd, 0s);
+  transition: transform .6s var(--e), box-shadow .4s, filter .4s, outline-color .4s;
 }
 .btn--brand::after {
   content: ""; position: absolute; inset: 0; z-index: -1;
@@ -166,7 +168,7 @@ html:not(.js) .loader { display: none; }
   transform: translateX(-120%); transition: transform .9s var(--e);
 }
 .btn--brand:hover::after { transform: translateX(120%); }
-.btn--brand:hover { box-shadow: 0 16px 50px -10px var(--bglow), inset 4px 4px 12px var(--b2); }
+.btn--brand:hover, .btn--brand:active, .btn--brand:focus-visible { filter: none; outline-color: rgba(255, 255, 255, .85); box-shadow: 0 14px 40px -12px var(--bglow), inset 3px 3px 10px rgba(255, 255, 255, .12); }
 .btn--wa { --b1: #04392f; --b2: #0d8a63; --b3: #25d366; --b4: #8ff0b1; --bglow: rgba(37, 211, 102, .75); --bd: 0s; }
 .btn--tg { --b1: #04213d; --b2: #0b6fc2; --b3: #229ed9; --b4: #5fd0ff; --bglow: rgba(34, 158, 217, .8); --bd: -1s; }
 .btn--vb { --b1: #1d0b4a; --b2: #5a3fd6; --b3: #7360f2; --b4: #b9a6ff; --bglow: rgba(115, 96, 242, .85); --bd: -2s; }
