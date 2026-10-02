@@ -1,0 +1,63 @@
+Photos from Unsplash (https://unsplash.com/license) — free to use.
+
+atlantico-about: https://unsplash.com/photos/lEsdWY7KJjw — Sebastian Frederik Jacobsen
+atlantico-c1: https://unsplash.com/photos/19tsn3fDZnU — Amo Journey
+atlantico-c2: https://unsplash.com/photos/RwDmUKpUP50 — Sebastian Coman Photography
+atlantico-c3: https://unsplash.com/photos/yOdW0qrzxEY — sydney Rae
+atlantico-hero: https://unsplash.com/photos/vvIrdGQI8xs — Jametlene Reskp
+bloom-about: https://unsplash.com/photos/NFj6pEUdmpY — Uljana Borodina
+bloom-hero: https://unsplash.com/photos/0utRJ1mZoZg — Brigitte Tohm
+bloom-p1: https://unsplash.com/photos/s3AFTBZ3cnc — Carrie Beth Williams
+bloom-p2: https://unsplash.com/photos/aiNU4cA4UzQ — jessie daniella
+bloom-p3: https://unsplash.com/photos/mNEpmNiFdXs — Angelina Jollivet
+charter-about: https://unsplash.com/photos/9-i4lI1ijes — Evan Smogor
+charter-c1: https://unsplash.com/photos/zGJ2prOFHC0 — Peter Fogden
+charter-c2: https://unsplash.com/photos/h_YjxPtkRHA — Luke Bender
+charter-c3: https://unsplash.com/photos/_-qLdvyvBhY — Alix Greenman
+charter-hero: https://unsplash.com/photos/AERsJ5XfHTs — SALEM.
+funchal-about: https://unsplash.com/photos/zLCTdR6W8N4 — Polina Kuzovkova
+funchal-c1: https://unsplash.com/photos/NQ1T6fEWq6Y — Maverick Frame
+funchal-c2: https://unsplash.com/photos/W3MckxPY6Mo — Caroline Badran
+funchal-c3: https://unsplash.com/photos/N1DlQkl2V2c — Gábor Szűts
+funchal-hero: https://unsplash.com/photos/OY5hB_hqOrU — Rosemary Media
+levada-about: https://unsplash.com/photos/_kdKNKFt7tg — Alex Meier
+levada-c1: https://unsplash.com/photos/qBm4PfajILc — Watn Weib
+levada-c2: https://unsplash.com/photos/W7JRbeKMsTY — Hikerwise.com
+levada-c3: https://unsplash.com/photos/4DXo5wrZaus — Tim Roosjen
+levada-hero: https://unsplash.com/photos/V_G7DpCrggI — Siret Jakšić
+nomad-about: https://unsplash.com/photos/dZxQn4VEv2M — Shridhar Gupta
+nomad-c1: https://unsplash.com/photos/p_kICQCOM4s — Copernico
+nomad-c2: https://unsplash.com/photos/ZKHksse8tUU — CoWomen
+nomad-c3: https://unsplash.com/photos/TSYQ5stQVjg — Copernico
+nomad-hero: https://unsplash.com/photos/o8gq_lul-kM — Oles Borys
+quinta-c1: https://unsplash.com/photos/ZLwGbS29emc — Gabrielle Maurer
+quinta-c2: https://unsplash.com/photos/76-58HpxvpQ — Jason Briscoe
+quinta-hero: https://unsplash.com/photos/7jXvvEMNTkc — Theo Maroulis
+reef-about: https://unsplash.com/photos/FXJf8y_cZA0 — NEOM
+reef-c1: https://unsplash.com/photos/L-2p8fapOA8 — Wexor Tmg
+reef-c2: https://unsplash.com/photos/jTxhUMyPTrE — NEOM
+reef-c3: https://unsplash.com/photos/s6g6ZSxM3kQ — NEOM
+reef-hero: https://unsplash.com/photos/_tDdlCJIwOA — NEOM
+smile-about: https://unsplash.com/photos/Pc8lpKJwecM — Ozkan Guner
+smile-c1: https://unsplash.com/photos/vVKh9xeLub4 — Benyamin Bohlouli
+smile-c2: https://unsplash.com/photos/QA9fRIi6sFw — Caroline LM
+smile-c3: https://unsplash.com/photos/KzmhiJJ041M — Kamal Hoseinianzade
+smile-hero: https://unsplash.com/photos/oOhTXx5mJqI — Rita Malçok
+surf-about: https://unsplash.com/photos/w029XMQEHEE — Juliane Liebermann
+surf-c1: https://unsplash.com/photos/7M3C8KjCEIQ — Victoria Nezh
+surf-c2: https://unsplash.com/photos/zRd9jDzZxnU — Ashutosh Gupta
+surf-c3: https://unsplash.com/photos/09tNiKU6068 — Sue Winston
+surf-hero: https://unsplash.com/photos/RfpPINBADTw — Keaton Dickinson
+vinha-about: https://unsplash.com/photos/h6S8-UsDB6E — Kristina Kutleša
+vinha-c1: https://unsplash.com/photos/3uJt73tr4hI — Maksym Kaharlytskyi
+vinha-c2: https://unsplash.com/photos/5ZjqoPcL7sA — Daniel
+vinha-c3: https://unsplash.com/photos/fRvSUS-KsjA — Timothé Durand
+vinha-hero: https://unsplash.com/photos/nZVjwM1xWU0 — Svetlana Gumerova
+volt-about: https://unsplash.com/photos/mTorQ9gFfOg — Luis Reyes
+volt-c1: https://unsplash.com/photos/rX36vcriciQ — Jonathan Tomas
+volt-c2: https://unsplash.com/photos/fG0p4Qh_aWI — Anastase Maragos
+volt-c3: https://unsplash.com/photos/h4i9G-de7Po — John Arano
+volt-hero: https://unsplash.com/photos/7kEpUPB8vNk — Anastase Maragos
+
+Map of Madeira (assets/img/madeira-sat*.webp): rendered from Terrain Tiles (AWS Open Data, Mapzen) — elevation sources include SRTM, ETOPO1 and GMTED (public domain). Not Google imagery.
+Globe land mask (assets/img/land.png): Natural Earth, public domain.
