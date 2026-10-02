@@ -378,12 +378,19 @@ html.is-ready .globe-mag.is-live { transition: none; }
 .hero__bottom { position: relative; z-index: 3; margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
 .hero__lead { max-width: 25ch; font-size: clamp(16px, 1.55vw, 23px); font-weight: 600; line-height: 1.4; text-wrap: balance; }
 .rotator { display: inline-block; vertical-align: bottom; }
+.hero__lead { text-shadow: 0 2px 14px rgba(7, 7, 10, .75); }
+/* the rotating word glows like neon so it stays readable over the globe */
 .rotator__word {
-  display: inline-block; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+  --glow: drop-shadow(0 0 1.5px rgba(7, 7, 10, .95)) drop-shadow(0 0 7px rgba(255, 46, 126, .85)) drop-shadow(0 0 18px rgba(139, 92, 255, .7));
+  display: inline-block; font-weight: 800;
+  background: linear-gradient(120deg, #ffc27a 0%, #ff5fa8 48%, #c39bff 100%); background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none;
+  filter: var(--glow); animation: neon 3.4s ease-in-out infinite;
   transition: transform .5s var(--e), opacity .5s var(--e), filter .5s;
 }
-.rotator__word.is-out { transform: translateY(-70%); opacity: 0; filter: blur(4px); }
-.rotator__word.is-in { transform: translateY(70%); opacity: 0; filter: blur(4px); transition: none; }
+@keyframes neon { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.rotator__word.is-out { transform: translateY(-70%); opacity: 0; filter: var(--glow) blur(4px); }
+.rotator__word.is-in { transform: translateY(70%); opacity: 0; filter: var(--glow) blur(4px); transition: none; }
 .hero__cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
 .scroll-cue { position: absolute; left: 50%; bottom: clamp(22px, 4vh, 44px); z-index: 3; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--dim); }
 .scroll-cue i { width: 1px; height: 48px; background: linear-gradient(var(--ink), transparent); position: relative; overflow: hidden; }
