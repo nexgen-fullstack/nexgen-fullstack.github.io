@@ -850,25 +850,28 @@ html.js .vis[data-reveal] { transform: none; }
 .vd-meta b { font-family: var(--fd); font-size: clamp(16px, 2vw, 24px); color: var(--ink); margin-right: 6px; letter-spacing: -.02em; }
 
 /* v3 — cloud */
-.vis--cloud { background: radial-gradient(100% 100% at 100% 0%, #2a1406 0%, #0b0b12 58%); }
+.vis--cloud { background: radial-gradient(70% 60% at 100% 0%, rgba(255, 122, 26, .22), transparent 70%), radial-gradient(90% 80% at 45% 40%, #2b2752 0%, #1a1b35 48%, #121424 100%); }
 .vc-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.vc-grid { stroke: rgba(255, 255, 255, .05); stroke-width: 1; }
-.vc-line { fill: none; stroke: rgba(255, 255, 255, .14); stroke-width: 1.5; stroke-dasharray: 5 6; animation: dash 1.4s linear infinite; }
+.vc-grid { stroke: rgba(255, 255, 255, .07); stroke-width: 1; }
+.vc-cloud { fill: rgba(255, 255, 255, .035); stroke: rgba(255, 153, 0, .55); stroke-width: 1.2; stroke-dasharray: 6 5; }
+.vc-tag { font-family: var(--fm); font-size: 10px; font-weight: 700; letter-spacing: .1em; fill: #ffad4d; }
+.vc-panel { fill: rgba(255, 255, 255, .04); stroke: rgba(255, 255, 255, .08); }
+.vc-line { fill: none; stroke: rgba(255, 255, 255, .3); stroke-width: 1.5; stroke-dasharray: 5 6; animation: dash 1.4s linear infinite; }
 @keyframes dash { to { stroke-dashoffset: -22; } }
-.vc-node rect { fill: #12121b; stroke: rgba(255, 255, 255, .2); stroke-width: 1.2; }
-.vc-node text { font-family: var(--fm); font-size: 12px; font-weight: 700; letter-spacing: .04em; fill: #d9d9e4; text-anchor: middle; }
+.vc-node rect { fill: #23264a; stroke: rgba(255, 255, 255, .32); stroke-width: 1.2; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, .35)); }
+.vc-node text { font-family: var(--fm); font-size: 12px; font-weight: 700; letter-spacing: .04em; fill: #f1f1f7; text-anchor: middle; }
 .vc-node .big { font-family: var(--fd); font-size: 15px; font-weight: 700; fill: var(--ink); letter-spacing: 0; }
 .vc-node--hot rect { stroke: url(#vc-g); stroke-width: 2; }
 .vc-node--hot .halo { fill: none; stroke: #ff2e7e; stroke-width: 1.5; opacity: .6; transform-box: fill-box; transform-origin: center; animation: halo 2.4s var(--e) infinite; }
 @keyframes halo { from { transform: scale(1); opacity: .7; } to { transform: scale(1.5); opacity: 0; } }
-.vc-ec2 rect { fill: #1b1b26; stroke: rgba(255, 255, 255, .32); transition: opacity .6s; }
+.vc-ec2 rect { fill: #262a50; stroke: rgba(255, 255, 255, .38); transition: opacity .6s; }
 .vc-ec2 .idle { animation: idle 4s ease-in-out infinite; }
 @keyframes idle { 0%, 40% { opacity: 1; } 55%, 85% { opacity: .15; } 100% { opacity: 1; } }
 .vc-pkt { fill: #fff; filter: drop-shadow(0 0 4px #ff2e7e); }
 .vc-area { fill: url(#vc-a); }
 .vc-cost { fill: none; stroke: url(#vc-g); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 600; stroke-dashoffset: 600; }
 .in .vc-cost { stroke-dashoffset: 0; transition: stroke-dashoffset 2.4s var(--e) .3s; }
-.vc-lbl { font-family: var(--fm); font-size: 12px; font-weight: 700; letter-spacing: .08em; fill: var(--dim); }
+.vc-lbl { font-family: var(--fm); font-size: 12px; font-weight: 700; letter-spacing: .08em; fill: #c3c3d4; }
 .vc-down { font-family: var(--fd); font-weight: 800; font-size: 20px; fill: var(--g); }
 
 /* v4 — stream */
