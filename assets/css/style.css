@@ -1156,6 +1156,12 @@ html.js .in .wa p:nth-child(2) { transition-delay: 1.1s; }
   transform: translateY(160%); transition: transform .7s var(--e);
 }
 .fab.is-on { transform: none; }
+.fab__label { display: inline-block; max-width: 14em; overflow: hidden; white-space: nowrap; transition: max-width .6s var(--e), opacity .4s; }
+@media (max-width: 760px) {
+  .fab { transition: transform .7s var(--e), padding .6s var(--e), gap .6s var(--e); }
+  .fab.is-mini { gap: 0; padding: 0 8px; }
+  .fab.is-mini .fab__label { max-width: 0; opacity: 0; }
+}
 .fab__ico { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: #25d366; }
 .fab__ico svg { width: 22px; height: 22px; }
 @media (min-width: 1081px) { .fab { right: 28px; bottom: 28px; } }

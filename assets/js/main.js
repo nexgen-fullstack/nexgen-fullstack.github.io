@@ -242,8 +242,17 @@
       if (!target) return;
       e.preventDefault();
       if (menuOpen) setMenu(false);
-      if (lenis) lenis.scrollTo(id === '#top' ? 0 : target, { duration: 1.5 });
-      else if (id === '#top') window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      // sections marked data-anchor="center" land in the middle of the screen (the concept reel)
+      let dest = id === '#top' ? 0 : target;
+      if (target !== doc && target.dataset.anchor === 'center') {
+        const a0 = target.firstElementChild;
+        const a1 = target.lastElementChild;
+        const top = docTop(a0);
+        const h = docTop(a1) + a1.offsetHeight - top;
+        dest = Math.max(0, Math.round(top - Math.max(S.vw <= 760 ? 76 : 96, (S.vh - h) / 2)));
+      }
+      if (lenis) lenis.scrollTo(dest, { duration: 1.5 });
+      else if (typeof dest === 'number') window.scrollTo({ top: dest, behavior: reduce ? 'auto' : 'smooth' });
       else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
       if (target !== doc) {
         if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
@@ -254,6 +263,8 @@
     const links = $$('.nav__links a[data-nav]');
     const secs = links.map(a => document.getElementById(a.dataset.nav)).filter(Boolean);
     const fab = $('.fab');
+    let fabOn = false;
+    let fabT = 0;
     const contact = $('#contact');
     const progress = $('.progress i');
     let tops = [];
@@ -280,7 +291,15 @@
         active = cur;
         links.forEach(a => a.classList.toggle('is-active', a.dataset.nav === cur));
       }
-      if (fab) fab.classList.toggle('is-on', !menuOpen && y > S.vh * 0.9 && y + S.vh * 0.6 < contactTop);
+      const fabShow = !menuOpen && y > S.vh * 0.9 && y + S.vh * 0.6 < contactTop;
+      if (fab && fabShow !== fabOn) {
+        // on phones the button shows its label for a moment, then folds into a round WhatsApp icon
+        fabOn = fabShow;
+        fab.classList.toggle('is-on', fabShow);
+        clearTimeout(fabT);
+        fab.classList.remove('is-mini');
+        if (fabShow && S.vw <= 760) fabT = setTimeout(() => fab.classList.add('is-mini'), 2500);
+      }
     });
   });
 
