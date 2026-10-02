@@ -220,6 +220,10 @@
 
   safe('nav', () => {
     if (burger) burger.addEventListener('click', () => setMenu(!menuOpen));
+    document.addEventListener('click', e => {
+      const l = e.target.closest('.lang a[hreflang]');
+      if (l) { try { localStorage.setItem('nx-lang', l.getAttribute('hreflang')); } catch (er) { /* private mode */ } }
+    });
     const dd = $('.lang-dd');
     if (dd) {
       document.addEventListener('click', e => { if (dd.open && !dd.contains(e.target)) dd.open = false; });
@@ -1028,12 +1032,23 @@ void main(){
       stats: [['95%', 'sighting rate'], ['3 h', 'on the water'], ['28', 'species seen']],
       sec: 'Trips', cards: [['Dolphin watching', '3 h · catamaran', '€55'], ['Sunset sail', '2 h · drinks included', '€45'], ['Private charter', 'Up to 12 guests', 'from €480']],
       about: ['Respectful encounters', 'We follow the Madeira code for marine life — no chasing, quiet engines, small groups.', ['Free retry if no sightings', 'Snorkel stop in summer', 'Kids under 12 half price']],
-      band: ['Meet the locals of the Atlantic', 'Reserve seats'] }
+      band: ['Meet the locals of the Atlantic', 'Reserve seats'] },
+    { id: 'quinta', n: 'Quinta Azul', u: 'quintaazul.pt', l: 'split', bg: '#f6f1e7', fg: '#1e2a5a', ac: '#2557d6', bt: '#fff', ff: SERIF,
+      nav: ['Rooms', 'Spa', 'Dining', 'Contact'], cta: 'Book now',
+      kick: 'Boutique hotel · Funchal', h: 'Your quiet place in Madeira',
+      p: 'Sea-view suites, a heated pool and breakfast in a subtropical garden — five minutes from the old town.', b1: 'Book now', b2: 'Rooms',
+      stats: [['24', 'suites'], ['9.4', 'on Booking'], ['5 min', 'to the old town']],
+      sec: 'Stay with us', cards: [['Garden suite', 'King bed · terrace', '€180 / night'], ['Pool & terrace', 'Open 8:00 – 20:00', 'Free']],
+      band: ['Best rate when you book direct', 'Check dates'] }
   ];
+  // every concept lives under the NEXGEN name in the address bar
+  const SLUG = { atlantico: 'atlantico', levada: 'levada-trails', bloom: 'bloom', volt: 'volt-gym', cloudops: 'cloudops', vinha: 'casa-da-vinha',
+    funchal: 'funchal-living', reef: 'blue-reef-dive', smile: 'smile-clinic', surf: 'surf-moniz', nomad: 'nomad-hub', charter: 'sea-charter', quinta: 'quinta-azul' };
+  const slug = s => SLUG[s.id] || s.id;
   // the three "Instant Demo Sites" phones: the same projects, generated in 7 languages
   const byId = id => SITES.find(s => s.id === id);
   const PLANG = ['pt', 'en', 'de', 'es', 'it', 'fr', 'ua'];
-  const QUINTA = { id: 'quinta', n: 'Quinta Azul', u: 'quintaazul.pt', l: 'split', bg: '#f6f1e7', fg: '#1e2a5a', ac: '#2557d6', bt: '#fff', ff: SERIF };
+  const ALLS = { en: 'See all →', pt: 'Ver tudo →', de: 'Alle →', es: 'Ver todo →', it: 'Vedi tutto →', fr: 'Tout voir →', ua: 'Усі →' };
   const PVALS = { atlantico: ['4.8★', '2009', '120'], quinta: ['24', '9.4', '5 min'], levada: ['18', '8', '4.9★'] };
   // [kicker, headline, text, button 1, button 2, stat labels, section, "see all", cards [title, detail, price], band [title, button]]
   const PTXT = {
@@ -1065,13 +1080,94 @@ void main(){
       ua: ['Піші тури · Мадейра', 'Прогулянка над хмарами', 'Маленькі групи, левади й лаврові ліси — трансфер із готелю включено.', 'Забронювати тур', 'Маршрути', ['маршрутів', 'у групі, макс.', 'TripAdvisor'], 'Улюблені маршрути', 'Усі →', [['Левада-ду-Рей', 'Легкий · 3 год', '€45'], ['25 джерел', 'Середній · 4 год', '€49']], ['Світанок на Піку-ду-Арієйру', 'Забронювати']]
     }
   };
+  // the other portfolio sites on the phones, in every language (EN comes straight from SITES)
+  // [kicker, headline, text, button 1, button 2, stats [[value, label]], section, cards [title, detail, price], band]
+  Object.assign(PTXT, {
+    bloom: {
+      pt: ['Florista · entrega no próprio dia', 'Flores entregues hoje', 'Ramos feitos à mão com flores de produtores locais. Encomende até às 14h — entrega no Funchal no mesmo dia.', 'Ver ramos', 'Casamentos', [['2 h', 'janela de entrega'], ['Local', 'produtores da Madeira'], ['4.9★', '1 300 avaliações']], 'Mais vendidos', [['Dias de Sol', 'Girassóis e oliveira', '€32'], ['Jardim Branco', 'Rosas e hortênsias', '€38']], ['Surpreenda alguém hoje', 'Enviar flores']],
+      de: ['Florist · Lieferung am selben Tag', 'Blumen, noch heute geliefert', 'Handgebundene Sträuße von lokalen Gärtnern. Bis 14 Uhr bestellt — am selben Tag in Funchal geliefert.', 'Sträuße ansehen', 'Hochzeiten', [['2 Std.', 'Lieferfenster'], ['Lokal', 'Gärtner aus Madeira'], ['4.9★', '1 300 Bewertungen']], 'Bestseller', [['Sonnentage', 'Sonnenblumen & Olive', '€32'], ['Weißer Garten', 'Rosen & Hortensien', '€38']], ['Überraschen Sie heute jemanden', 'Blumen senden']],
+      es: ['Floristería · entrega en el día', 'Flores, entregadas hoy', 'Ramos hechos a mano con flores de productores locales. Pide antes de las 14 h y llegan a Funchal el mismo día.', 'Ver ramos', 'Bodas', [['2 h', 'franja de entrega'], ['Local', 'productores de Madeira'], ['4.9★', '1 300 reseñas']], 'Más vendidos', [['Días de sol', 'Girasoles y olivo', '€32'], ['Jardín blanco', 'Rosas e hortensias', '€38']], ['Sorprende hoy a alguien', 'Enviar flores']],
+      it: ['Fiorista · consegna in giornata', 'Fiori consegnati oggi', 'Bouquet fatti a mano con fiori di coltivatori locali. Ordina entro le 14 — consegna a Funchal in giornata.', 'Scopri i bouquet', 'Matrimoni', [['2 h', 'fascia di consegna'], ['Locali', 'coltivatori di Madeira'], ['4.9★', '1 300 recensioni']], 'I più venduti', [['Giorni di sole', 'Girasoli e ulivo', '€32'], ['Giardino bianco', 'Rose e ortensie', '€38']], ['Sorprendi qualcuno oggi', 'Invia fiori']],
+      fr: ['Fleuriste · livraison le jour même', 'Des fleurs livrées aujourd’hui', 'Bouquets faits main avec des fleurs de producteurs locaux. Commandez avant 14 h — livrés à Funchal le jour même.', 'Voir les bouquets', 'Mariages', [['2 h', 'créneau de livraison'], ['Local', 'producteurs de Madère'], ['4.9★', '1 300 avis']], 'Meilleures ventes', [['Jours de soleil', 'Tournesols et olivier', '32 €'], ['Jardin blanc', 'Roses et hortensias', '38 €']], ['Faites une surprise aujourd’hui', 'Envoyer des fleurs']],
+      ua: ['Квіти · доставка в день замовлення', 'Квіти з доставкою сьогодні', 'Букети ручної роботи від місцевих фермерів. Замовте до 14:00 — доставимо по Фуншалу того ж дня.', 'Обрати букет', 'Весілля', [['2 год', 'вікно доставки'], ['Місцеві', 'фермери Мадейри'], ['4.9★', '1 300 відгуків']], 'Хіти продажів', [['Сонячні дні', 'Соняшники й оливка', '€32'], ['Білий сад', 'Троянди й гортензії', '€38']], ['Здивуйте когось сьогодні', 'Надіслати квіти']]
+    },
+    volt: {
+      pt: ['Força · Boxe · HIIT — Funchal', 'Mais forte todos os dias', 'Aulas com treinador, zona de musculação e área de recuperação. Aberto todos os dias das 6:00 às 23:00.', 'Treino grátis', 'Horário', [['1 200+', 'membros'], ['35', 'aulas por semana'], ['6–23', 'aberto todos os dias']], 'Aulas desta semana', [['Boxe', 'Seg · Qua · Sex — 55 min', 'Reservar'], ['TRX e Core', 'Ter · Qui — 45 min', 'Reservar']], ['A primeira aula é por nossa conta', 'Marcar treino']],
+      de: ['Kraft · Boxen · HIIT — Funchal', 'Jeden Tag stärker', 'Kurse mit Coach, offene Kraftfläche und Recovery-Zone. Täglich von 6 bis 23 Uhr geöffnet.', 'Gratis testen', 'Kursplan', [['1 200+', 'Mitglieder'], ['35', 'Kurse pro Woche'], ['6–23', 'täglich geöffnet']], 'Kurse diese Woche', [['Boxen', 'Mo · Mi · Fr — 55 Min.', 'Buchen'], ['TRX & Core', 'Di · Do — 45 Min.', 'Buchen']], ['Ihre erste Stunde geht auf uns', 'Probetraining']],
+      es: ['Fuerza · Boxeo · HIIT — Funchal', 'Más fuerte cada día', 'Clases con entrenador, zona de fuerza y área de recuperación. Abierto todos los días de 6:00 a 23:00.', 'Prueba gratis', 'Horario', [['1 200+', 'socios'], ['35', 'clases a la semana'], ['6–23', 'abierto a diario']], 'Clases de esta semana', [['Boxeo', 'Lun · Mié · Vie — 55 min', 'Reservar'], ['TRX y Core', 'Mar · Jue — 45 min', 'Reservar']], ['Tu primera clase es gratis', 'Reservar prueba']],
+      it: ['Forza · Boxe · HIIT — Funchal', 'Più forte ogni giorno', 'Corsi con coach, area pesi e zona recupero. Aperto tutti i giorni dalle 6:00 alle 23:00.', 'Prova gratis', 'Orari', [['1 200+', 'iscritti'], ['35', 'corsi a settimana'], ['6–23', 'aperto ogni giorno']], 'Corsi della settimana', [['Boxe', 'Lun · Mer · Ven — 55 min', 'Prenota'], ['TRX e Core', 'Mar · Gio — 45 min', 'Prenota']], ['La prima lezione la offriamo noi', 'Prenota una prova']],
+      fr: ['Force · Boxe · HIIT — Funchal', 'Plus fort chaque jour', 'Cours avec coach, plateau de musculation et espace récupération. Ouvert tous les jours de 6 h à 23 h.', 'Essai gratuit', 'Planning', [['1 200+', 'membres'], ['35', 'cours par semaine'], ['6–23', 'ouvert tous les jours']], 'Cours de la semaine', [['Boxe', 'Lun · Mer · Ven — 55 min', 'Réserver'], ['TRX & gainage', 'Mar · Jeu — 45 min', 'Réserver']], ['Votre premier cours est offert', 'Réserver un essai']],
+      ua: ['Сила · Бокс · HIIT — Фуншал', 'Сильніші щодня', 'Тренування з тренером, зона вільних ваг і відновлення. Працюємо щодня з 6:00 до 23:00.', 'Безкоштовне тренування', 'Розклад', [['1 200+', 'учасників'], ['35', 'занять на тиждень'], ['6–23', 'щодня']], 'Заняття цього тижня', [['Бокс', 'Пн · Ср · Пт — 55 хв', 'Записатися'], ['TRX і кор', 'Вт · Чт — 45 хв', 'Записатися']], ['Перше заняття — від нас', 'Записатися']]
+    },
+    vinha: {
+      pt: ['Adega de vinho Madeira · Funchal', 'Envelhecido junto ao mar', 'Visite a nossa adega histórica e prove Madeiras raros — do Sercial seco à Malvasia doce.', 'Marcar prova', 'Loja de vinhos', [['10–50', 'anos em casco'], ['4', 'castas nobres'], ['Diárias', 'visitas guiadas']], 'Experiências', [['Prova clássica', '4 vinhos · 45 min', '€18'], ['Prova vintage', '3 colheitas raras', '€35']], ['Prove um século de Madeira', 'Reservar']],
+      de: ['Madeira-Weinkellerei · Funchal', 'Gereift am Ozean', 'Besuchen Sie unseren historischen Keller und probieren Sie seltenen Madeira — vom trockenen Sercial bis zur süßen Malvasia.', 'Verkostung buchen', 'Weinshop', [['10–50', 'Jahre im Fass'], ['4', 'edle Rebsorten'], ['Täglich', 'Führungen']], 'Erlebnisse', [['Klassische Probe', '4 Weine · 45 Min.', '€18'], ['Jahrgangsprobe', '3 seltene Jahrgänge', '€35']], ['Ein Jahrhundert Madeira probieren', 'Reservieren']],
+      es: ['Bodega de vino de Madeira · Funchal', 'Envejecido junto al océano', 'Recorre nuestra bodega histórica y cata Madeiras únicos — del seco Sercial a la dulce Malvasía.', 'Reservar cata', 'Tienda', [['10–50', 'años en barrica'], ['4', 'uvas nobles'], ['A diario', 'visitas guiadas']], 'Experiencias', [['Cata clásica', '4 vinos · 45 min', '€18'], ['Cata de añadas', '3 añadas raras', '€35']], ['Prueba un siglo de Madeira', 'Reservar']],
+      it: ['Cantina di vino Madeira · Funchal', 'Invecchiato accanto all’oceano', 'Visita la nostra cantina storica e assaggia Madeira rari — dal secco Sercial alla dolce Malvasia.', 'Prenota una degustazione', 'Shop vini', [['10–50', 'anni in botte'], ['4', 'vitigni nobili'], ['Ogni giorno', 'visite guidate']], 'Esperienze', [['Degustazione classica', '4 vini · 45 min', '€18'], ['Annate rare', '3 annate speciali', '€35']], ['Assaggia un secolo di Madeira', 'Prenota']],
+      fr: ['Chai de vin de Madère · Funchal', 'Vieilli face à l’océan', 'Visitez notre chai historique et dégustez des Madère rares — du Sercial sec à la Malvasia douce.', 'Réserver une dégustation', 'Boutique', [['10–50', 'ans en fût'], ['4', 'cépages nobles'], ['Tous les jours', 'visites guidées']], 'Expériences', [['Dégustation classique', '4 vins · 45 min', '18 €'], ['Millésimes', '3 millésimes rares', '35 €']], ['Un siècle de Madère à déguster', 'Réserver']],
+      ua: ['Винний льох мадери · Фуншал', 'Витримане біля океану', 'Прогуляйтеся історичним льохом і скуштуйте рідкісну мадеру — від сухого серсіалу до солодкої мальвазії.', 'Записатися на дегустацію', 'Магазин вин', [['10–50', 'років у бочці'], ['4', 'шляхетні сорти'], ['Щодня', 'екскурсії']], 'Враження', [['Класична дегустація', '4 вина · 45 хв', '€18'], ['Вінтажна дегустація', '3 рідкісні роки', '€35']], ['Скуштуйте століття мадери', 'Забронювати']]
+    },
+    funchal: {
+      pt: ['Imobiliária · Madeira', 'Casas com vista para o mar', 'Moradias e apartamentos selecionados no Funchal, Calheta e Ponta do Sol.', 'Ver imóveis', 'Vender connosco', [['240+', 'imóveis'], ['15 anos', 'na ilha'], ['3', 'escritórios']], 'Imóveis em destaque', [['Moradia Calheta', 'T4 · piscina · 280 m²', '€1 250 000'], ['Apartamento vista mar', 'T2 · Funchal', '€420 000']], ['Encontre a sua vista', 'Marcar visita']],
+      de: ['Immobilien · Madeira', 'Häuser mit Meerblick', 'Ausgewählte Villen und Wohnungen in Funchal, Calheta und Ponta do Sol.', 'Objekte ansehen', 'Verkaufen', [['240+', 'Angebote'], ['15 J.', 'auf der Insel'], ['3', 'Büros vor Ort']], 'Top-Immobilien', [['Villa Calheta', '4 Zi. · Pool · 280 m²', '€1 250 000'], ['Wohnung mit Meerblick', '2 Zi. · Funchal', '€420 000']], ['Finden Sie Ihren Ausblick', 'Besichtigung buchen']],
+      es: ['Inmobiliaria · Madeira', 'Casas con vistas al mar', 'Villas y apartamentos seleccionados en Funchal, Calheta y Ponta do Sol.', 'Ver viviendas', 'Vende con nosotros', [['240+', 'inmuebles'], ['15 años', 'en la isla'], ['3', 'oficinas']], 'Inmuebles destacados', [['Villa Calheta', '4 hab. · piscina · 280 m²', '€1 250 000'], ['Piso con vista al mar', '2 hab. · Funchal', '€420 000']], ['Encuentra tu vista', 'Reservar visita']],
+      it: ['Immobiliare · Madeira', 'Case vista oceano', 'Ville e appartamenti selezionati a Funchal, Calheta e Ponta do Sol.', 'Vedi gli immobili', 'Vendi con noi', [['240+', 'immobili'], ['15 anni', 'sull’isola'], ['3', 'agenzie']], 'Immobili in evidenza', [['Villa Calheta', '4 camere · piscina · 280 m²', '€1 250 000'], ['Appartamento vista mare', '2 camere · Funchal', '€420 000']], ['Trova la tua vista', 'Prenota una visita']],
+      fr: ['Immobilier · Madère', 'Maisons vue sur l’océan', 'Villas et appartements sélectionnés à Funchal, Calheta et Ponta do Sol.', 'Voir les biens', 'Vendre avec nous', [['240+', 'annonces'], ['15 ans', 'sur l’île'], ['3', 'agences']], 'Biens à la une', [['Villa Calheta', '4 ch. · piscine · 280 m²', '1 250 000 €'], ['Appartement vue mer', '2 ch. · Funchal', '420 000 €']], ['Trouvez votre vue', 'Réserver une visite']],
+      ua: ['Нерухомість · Мадейра', 'Будинки з видом на океан', 'Добірні вілли й апартаменти у Фуншалі, Калєті та Понта-ду-Сол.', 'Дивитися об’єкти', 'Продати з нами', [['240+', 'об’єктів'], ['15 років', 'на острові'], ['3', 'офіси']], 'Рекомендовані об’єкти', [['Вілла Калєта', '4 спальні · басейн · 280 м²', '€1 250 000'], ['Апартаменти з видом на море', '2 спальні · Фуншал', '€420 000']], ['Знайдіть свій краєвид', 'Записатися на перегляд']]
+    },
+    reef: {
+      pt: ['Centro de mergulho PADI · Garajau', 'Mergulhe no azul', 'Batismos, cursos PADI e mergulhos de barco numa das águas mais limpas do Atlântico.', 'Reservar mergulho', 'Cursos', [['24 °C', 'água no verão'], ['30 m', 'visibilidade'], ['5★', 'centro PADI']], 'Comece aqui', [['Tartarugas', 'Mergulho de barco · 2 h', '€55'], ['Batismo de mergulho', 'Sem experiência', '€80']], ['A sua primeira respiração debaixo de água', 'Reservar']],
+      de: ['PADI-Tauchzentrum · Garajau', 'Ab ins Blaue', 'Schnuppertauchen, PADI-Kurse und Bootstauchgänge in einem der klarsten Gewässer des Atlantiks.', 'Tauchgang buchen', 'Kurse', [['24 °C', 'Wasser im Sommer'], ['30 m', 'Sichtweite'], ['5★', 'PADI-Zentrum']], 'Hier starten', [['Schildkröten treffen', 'Bootstauchgang · 2 Std.', '€55'], ['Discover Scuba', 'Keine Erfahrung nötig', '€80']], ['Ihr erster Atemzug unter Wasser', 'Jetzt buchen']],
+      es: ['Centro de buceo PADI · Garajau', 'Sumérgete en el azul', 'Bautismos, cursos PADI e inmersiones en barco en una de las aguas más claras del Atlántico.', 'Reservar inmersión', 'Cursos', [['24 °C', 'agua en verano'], ['30 m', 'visibilidad'], ['5★', 'centro PADI']], 'Empieza aquí', [['Con las tortugas', 'Inmersión en barco · 2 h', '€55'], ['Bautismo de buceo', 'Sin experiencia', '€80']], ['Tu primera respiración bajo el agua', 'Reservar']],
+      it: ['Diving center PADI · Garajau', 'Tuffati nel blu', 'Battesimi, corsi PADI e immersioni in barca in una delle acque più limpide dell’Atlantico.', 'Prenota un’immersione', 'Corsi', [['24 °C', 'acqua d’estate'], ['30 m', 'visibilità'], ['5★', 'centro PADI']], 'Inizia da qui', [['Tra le tartarughe', 'Immersione in barca · 2 h', '€55'], ['Battesimo del mare', 'Nessuna esperienza', '€80']], ['Il tuo primo respiro sott’acqua', 'Prenota']],
+      fr: ['Centre de plongée PADI · Garajau', 'Plongez dans le bleu', 'Baptêmes, formations PADI et plongées en bateau dans l’une des eaux les plus claires de l’Atlantique.', 'Réserver une plongée', 'Formations', [['24 °C', 'eau en été'], ['30 m', 'visibilité'], ['5★', 'centre PADI']], 'Pour commencer', [['Avec les tortues', 'Plongée bateau · 2 h', '55 €'], ['Baptême de plongée', 'Sans expérience', '80 €']], ['Votre première respiration sous l’eau', 'Réserver']],
+      ua: ['Дайв-центр PADI · Гаражау', 'Пориньте в синяву', 'Пробні занурення, курси PADI та занурення з човна в одній з найчистіших вод Атлантики.', 'Забронювати занурення', 'Курси', [['24 °C', 'вода влітку'], ['30 м', 'видимість'], ['5★', 'центр PADI']], 'Почніть тут', [['Зустріч із черепахами', 'З човна · 2 год', '€55'], ['Пробне занурення', 'Без досвіду', '€80']], ['Ваш перший вдих під водою', 'Забронювати']]
+    },
+    smile: {
+      pt: ['Clínica dentária · Funchal', 'O seu sorriso, o nosso cuidado', 'Medicina dentária moderna e suave em português, inglês e alemão — consultas na mesma semana.', 'Marcar consulta', 'Tratamentos', [['12', 'especialistas'], ['Na semana', 'consultas'], ['4.9★', 'avaliação']], 'Tratamentos', [['Consulta e higiene', '45 min', 'desde €60'], ['Alinhadores invisíveis', 'Scan 3D grátis', 'desde €1 900']], ['Sorria com confiança', 'Marcar online']],
+      de: ['Zahnklinik · Funchal', 'Ihr Lächeln, unsere Sorge', 'Sanfte, moderne Zahnmedizin auf Portugiesisch, Englisch und Deutsch — Termine noch in derselben Woche.', 'Termin buchen', 'Behandlungen', [['12', 'Fachärzte'], ['Gleiche Woche', 'Termine'], ['4.9★', 'Patientenbewertung']], 'Behandlungen', [['Kontrolle & Prophylaxe', '45 Min.', 'ab €60'], ['Unsichtbare Aligner', 'Gratis 3D-Scan', 'ab €1 900']], ['Lächeln Sie mit Selbstvertrauen', 'Online buchen']],
+      es: ['Clínica dental · Funchal', 'Tu sonrisa, nuestro cuidado', 'Odontología moderna y delicada en portugués, inglés y alemán — citas en la misma semana.', 'Pedir cita', 'Tratamientos', [['12', 'especialistas'], ['En la semana', 'citas'], ['4.9★', 'valoración']], 'Tratamientos', [['Revisión e higiene', '45 min', 'desde €60'], ['Alineadores invisibles', 'Escáner 3D gratis', 'desde €1 900']], ['Sonríe con confianza', 'Pedir cita online']],
+      it: ['Studio dentistico · Funchal', 'Il tuo sorriso, la nostra cura', 'Odontoiatria moderna e delicata in portoghese, inglese e tedesco — appuntamenti in settimana.', 'Prenota una visita', 'Trattamenti', [['12', 'specialisti'], ['In settimana', 'appuntamenti'], ['4.9★', 'voto dei pazienti']], 'Trattamenti', [['Controllo e igiene', '45 min', 'da €60'], ['Allineatori invisibili', 'Scansione 3D gratuita', 'da €1 900']], ['Sorridi con sicurezza', 'Prenota online']],
+      fr: ['Cabinet dentaire · Funchal', 'Votre sourire, notre soin', 'Une dentisterie douce et moderne en portugais, anglais et allemand — rendez-vous dans la semaine.', 'Prendre rendez-vous', 'Soins', [['12', 'spécialistes'], ['Sous 7 jours', 'rendez-vous'], ['4.9★', 'avis patients']], 'Soins', [['Contrôle & détartrage', '45 min', 'dès 60 €'], ['Aligneurs invisibles', 'Scan 3D offert', 'dès 1 900 €']], ['Souriez en toute confiance', 'Réserver en ligne']],
+      ua: ['Стоматологія · Фуншал', 'Ваша усмішка — наша турбота', 'Делікатна сучасна стоматологія португальською, англійською та німецькою — запис того ж тижня.', 'Записатися', 'Послуги', [['12', 'лікарів'], ['Цього тижня', 'запис'], ['4.9★', 'оцінка пацієнтів']], 'Послуги', [['Огляд і гігієна', '45 хв', 'від €60'], ['Прозорі елайнери', '3D-скан безкоштовно', 'від €1 900']], ['Усміхайтеся впевнено', 'Записатися онлайн']]
+    },
+    surf: {
+      pt: ['Escola de surf · Porto Moniz', 'Apanhe a sua onda', 'Aulas para iniciantes, aluguer de pranchas e surf camps na costa norte da Madeira.', 'Marcar aula', 'Aluguer', [['8+', 'anos para começar'], ['2 h', 'por aula'], ['Todo', 'o material incluído']], 'Escolha a sua sessão', [['Primeira onda', 'Iniciante · 2 h', '€40'], ['Aula de grupo', 'Até 6 pessoas', '€35']], ['O oceano está a chamar', 'Reservar']],
+      de: ['Surfschule · Porto Moniz', 'Erwisch deine Welle', 'Anfängerkurse, Boardverleih und Surfcamps an der wilden Nordküste Madeiras.', 'Kurs buchen', 'Verleih', [['8+', 'Jahre zum Start'], ['2 Std.', 'pro Kurs'], ['Alles', 'Material inklusive']], 'Wähle deine Session', [['Erste Welle', 'Anfänger · 2 Std.', '€40'], ['Gruppenkurs', 'Bis 6 Personen', '€35']], ['Der Ozean ruft', 'Jetzt buchen']],
+      es: ['Escuela de surf · Porto Moniz', 'Atrapa tu ola', 'Clases para principiantes, alquiler de tablas y surf camps en la salvaje costa norte de Madeira.', 'Reservar clase', 'Alquiler', [['8+', 'años para empezar'], ['2 h', 'por clase'], ['Todo', 'el material incluido']], 'Elige tu sesión', [['Primera ola', 'Principiante · 2 h', '€40'], ['Clase en grupo', 'Hasta 6 personas', '€35']], ['El océano te llama', 'Reservar']],
+      it: ['Scuola di surf · Porto Moniz', 'Prendi la tua onda', 'Lezioni per principianti, noleggio tavole e surf camp sulla selvaggia costa nord di Madeira.', 'Prenota una lezione', 'Noleggio', [['8+', 'anni per iniziare'], ['2 h', 'a lezione'], ['Tutta', 'l’attrezzatura inclusa']], 'Scegli la tua sessione', [['Prima onda', 'Principianti · 2 h', '€40'], ['Lezione di gruppo', 'Fino a 6 persone', '€35']], ['L’oceano ti chiama', 'Prenota']],
+      fr: ['École de surf · Porto Moniz', 'Attrapez votre vague', 'Cours débutants, location de planches et surf camps sur la côte nord sauvage de Madère.', 'Réserver un cours', 'Location', [['8+', 'ans pour débuter'], ['2 h', 'par cours'], ['Tout', 'le matériel inclus']], 'Choisissez votre session', [['Première vague', 'Débutant · 2 h', '40 €'], ['Cours collectif', 'Jusqu’à 6 personnes', '35 €']], ['L’océan vous appelle', 'Réserver']],
+      ua: ['Школа серфінгу · Порту-Моніш', 'Злови свою хвилю', 'Уроки для початківців, прокат дошок і серф-табори на дикому північному узбережжі Мадейри.', 'Записатися на урок', 'Прокат', [['8+', 'років для старту'], ['2 год', 'урок'], ['Усе', 'спорядження включено']], 'Оберіть заняття', [['Перша хвиля', 'Новачки · 2 год', '€40'], ['Групове заняття', 'До 6 людей', '€35']], ['Океан кличе', 'Забронювати']]
+    },
+    nomad: {
+      pt: ['Coworking · Funchal e Ponta do Sol', 'Trabalhe junto ao mar', 'Fibra rápida, secretárias ergonómicas e uma comunidade de nómadas digitais de mais de 40 países.', 'Passe diário', 'Preços', [['1 Gbps', 'fibra'], ['24/7', 'acesso'], ['40+', 'nacionalidades']], 'Planos', [['Passe diário', 'Secretária + café', '€15 / dia'], ['Semanal', 'Qualquer secretária', '€79 / semana']], ['A sua secretária com vista', 'Juntar-se']],
+      de: ['Coworking · Funchal & Ponta do Sol', 'Arbeiten am Meer', 'Schnelles Glasfaser-Internet, ergonomische Tische und eine Community aus über 40 Ländern.', 'Tagespass holen', 'Preise', [['1 Gbit/s', 'Glasfaser'], ['24/7', 'Zugang'], ['40+', 'Nationalitäten']], 'Tarife', [['Tagespass', 'Flex-Desk + Kaffee', '€15 / Tag'], ['Wochenpass', 'Jeder Tisch, jeder Hub', '€79 / Woche']], ['Ihr Schreibtisch mit Aussicht', 'Mitglied werden']],
+      es: ['Coworking · Funchal y Ponta do Sol', 'Trabaja junto al océano', 'Fibra rápida, mesas ergonómicas y una comunidad de nómadas digitales de más de 40 países.', 'Pase de día', 'Precios', [['1 Gbps', 'fibra'], ['24/7', 'acceso'], ['40+', 'nacionalidades']], 'Planes', [['Pase de día', 'Mesa flexible + café', '€15 / día'], ['Semanal', 'Cualquier mesa', '€79 / semana']], ['Tu mesa con vistas', 'Únete']],
+      it: ['Coworking · Funchal e Ponta do Sol', 'Lavora vicino all’oceano', 'Fibra veloce, scrivanie ergonomiche e una community di nomadi digitali da oltre 40 paesi.', 'Pass giornaliero', 'Prezzi', [['1 Gbps', 'fibra'], ['24/7', 'accesso'], ['40+', 'nazionalità']], 'Piani', [['Pass giornaliero', 'Postazione + caffè', '€15 / giorno'], ['Settimanale', 'Qualsiasi postazione', '€79 / settimana']], ['La tua scrivania vista mare', 'Unisciti']],
+      fr: ['Coworking · Funchal & Ponta do Sol', 'Travailler face à l’océan', 'Fibre rapide, bureaux ergonomiques et une communauté de télétravailleurs de plus de 40 pays.', 'Pass journée', 'Tarifs', [['1 Gb/s', 'fibre'], ['24/7', 'accès'], ['40+', 'nationalités']], 'Formules', [['Pass journée', 'Poste libre + café', '15 € / jour'], ['Semaine', 'Tous les postes', '79 € / semaine']], ['Votre bureau avec vue', 'Nous rejoindre']],
+      ua: ['Коворкінг · Фуншал і Понта-ду-Сол', 'Працюйте біля океану', 'Швидкий оптоволоконний інтернет, ергономічні столи й спільнота віддалених працівників із 40+ країн.', 'Денний пропуск', 'Ціни', [['1 Гбіт/с', 'інтернет'], ['24/7', 'доступ'], ['40+', 'національностей']], 'Тарифи', [['Денний пропуск', 'Вільне місце + кава', '€15 / день'], ['Тиждень', 'Будь-яке місце', '€79 / тиждень']], ['Ваш стіл із краєвидом', 'Приєднатися']]
+    },
+    charter: {
+      pt: ['Golfinhos e baleias · Funchal', 'Navegue com golfinhos', 'Passeios de catamarã de três horas com um biólogo marinho a bordo — avistamentos todo o ano.', 'Reservar passeio', 'Charter privado', [['95%', 'avistamentos'], ['3 h', 'no mar'], ['28', 'espécies']], 'Passeios', [['Golfinhos', '3 h · catamarã', '€55'], ['Pôr do sol à vela', '2 h · bebidas incluídas', '€45']], ['Conheça os habitantes do Atlântico', 'Reservar lugares']],
+      de: ['Delfine & Wale · Funchal', 'Segeln mit Delfinen', 'Dreistündige Katamaranfahrten mit Meeresbiologen an Bord — Sichtungen das ganze Jahr.', 'Tour buchen', 'Privatcharter', [['95%', 'Sichtungsquote'], ['3 Std.', 'auf dem Wasser'], ['28', 'Arten gesichtet']], 'Touren', [['Delfinbeobachtung', '3 Std. · Katamaran', '€55'], ['Sonnenuntergangstörn', '2 Std. · inkl. Getränke', '€45']], ['Treffen Sie die Bewohner des Atlantiks', 'Plätze reservieren']],
+      es: ['Delfines y ballenas · Funchal', 'Navega con delfines', 'Salidas de tres horas en catamarán con un biólogo marino a bordo — avistamientos todo el año.', 'Reservar salida', 'Chárter privado', [['95%', 'de avistamientos'], ['3 h', 'en el mar'], ['28', 'especies vistas']], 'Salidas', [['Avistamiento de delfines', '3 h · catamarán', '€55'], ['Velero al atardecer', '2 h · bebidas incluidas', '€45']], ['Conoce a los vecinos del Atlántico', 'Reservar plazas']],
+      it: ['Delfini e balene · Funchal', 'Naviga con i delfini', 'Uscite di tre ore in catamarano con un biologo marino a bordo — avvistamenti tutto l’anno.', 'Prenota l’uscita', 'Charter privato', [['95%', 'avvistamenti'], ['3 h', 'in mare'], ['28', 'specie avvistate']], 'Uscite', [['Delfini', '3 h · catamarano', '€55'], ['Vela al tramonto', '2 h · drink inclusi', '€45']], ['Incontra gli abitanti dell’Atlantico', 'Prenota i posti']],
+      fr: ['Dauphins & baleines · Funchal', 'Naviguez avec les dauphins', 'Sorties de trois heures en catamaran avec un biologiste marin à bord — observations toute l’année.', 'Réserver une sortie', 'Charter privé', [['95%', 'd’observations'], ['3 h', 'en mer'], ['28', 'espèces vues']], 'Sorties', [['Dauphins', '3 h · catamaran', '55 €'], ['Voile au coucher du soleil', '2 h · boissons incluses', '45 €']], ['Rencontrez les habitants de l’Atlantique', 'Réserver']],
+      ua: ['Дельфіни й кити · Фуншал', 'Під вітрилом з дельфінами', 'Тригодинні прогулянки катамараном з морським біологом на борту — зустрічі цілий рік.', 'Забронювати прогулянку', 'Приватний чартер', [['95%', 'зустрічей'], ['3 год', 'у морі'], ['28', 'видів']], 'Прогулянки', [['Дельфіни', '3 год · катамаран', '€55'], ['Захід сонця під вітрилом', '2 год · напої включено', '€45']], ['Познайомтеся з мешканцями Атлантики', 'Забронювати місця']]
+    }
+  });
   const phoneSite = (id, lang) => {
-    const t = PTXT[id][lang];
-    return Object.assign({}, id === 'quinta' ? QUINTA : byId(id), {
-      nav: [], cta: t[3], kick: t[0], h: t[1], p: t[2], b1: t[3], b2: t[4], stats: PVALS[id].map((v, i) => [v, t[5][i]]),
-      sec: t[6], all: t[7], cards: t[8], band: t[9], about: null, search: null
+    const base = byId(id);
+    const t = (PTXT[id] && PTXT[id][lang]) || [base.kick, base.h, base.p, base.b1, base.b2, base.stats, base.sec, base.cards.slice(0, 2), base.band];
+    const old = t.length === 10;  // [.., labels, sec, all, cards, band]
+    return Object.assign({}, base, {
+      nav: [], cta: t[3], kick: t[0], h: t[1], p: t[2], b1: t[3], b2: t[4],
+      stats: old ? PVALS[id].map((v, i) => [v, t[5][i]]) : t[5],
+      sec: t[6], all: old ? t[7] : ALLS[lang], cards: old ? t[8] : t[7], band: old ? t[9] : t[8], about: null, search: null
     });
   };
+  const PSITES = SITES.filter(s => s.l !== 'dash').map(s => s.id);
+  let openSite = null;
 
   const IMG = ASSETS + 'img/work/';
   const IW = { hero: 1600, about: 1200, card: 900, prod: 720 };
@@ -1110,7 +1206,7 @@ void main(){
     const hero = full
       ? '<section class="sp-hero sp-hero--full">' + pic(s, 'hero', 'hero', z.full, eager) + copy + '</section>'
       : '<section class="sp-hero sp-hero--split">' + copy + '<figure class="sp-media">' + pic(s, 'hero', 'hero', z.half, eager) + '</figure></section>';
-    const cards = '<section class="sp-sec"><div class="sp-sec__h"><h5>' + esc(s.sec) + '</h5><span>' + esc(s.all || (shop ? 'View all →' : 'See all →')) + '</span></div><div class="sp-cards' + (shop ? ' sp-cards--prod' : '') + '">' +
+    const cards = '<section class="sp-sec"><div class="sp-sec__h"><h5>' + esc(s.sec) + '</h5><span>' + esc(s.all || (shop ? 'View all →' : 'See all →')) + '</span></div><div class="sp-cards' + (shop ? ' sp-cards--prod' : '') + (s.cards.length === 2 ? ' sp-cards--2' : '') + '">' +
       s.cards.map((c, i) => '<article>' + pic(s, (shop ? 'p' : 'c') + (i + 1), shop ? 'prod' : 'card', z.card) + '<div><b>' + esc(c[0]) + '</b><span>' + esc(c[1]) + '</span><em>' + esc(c[2]) + '</em></div></article>').join('') +
       '</div></section>';
     const about = s.about ? '<section class="sp-about">' + pic(s, 'about', 'about', z.half) + '<div><h5>' + esc(s.about[0]) + '</h5><p>' + esc(s.about[1]) + '</p><ul>' +
@@ -1121,13 +1217,13 @@ void main(){
       '<ul class="sp-stats">' + s.stats.map(x => '<li><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>').join('') + '</ul>' +
       cards + about +
       '<section class="sp-band"><h5>' + esc(s.band[0]) + '</h5><em class="sp-btn">' + esc(s.band[1]) + '</em></section>' +
-      '<footer class="sp-foot"><b>' + esc(s.n) + '</b><span>' + esc(s.u) + '</span><span>Website by NEXGEN</span></footer>' +
+      '<footer class="sp-foot"><b>' + esc(s.n) + '</b><span>© 2026</span><span>Website by NEXGEN</span></footer>' +
       '</div>';
   }
   const siteVars = s => '--bg:' + s.bg + ';--fg:' + s.fg + ';--ac:' + s.ac + ';--bt:' + (s.bt || '#fff') + ';--ff:' + (s.ff || 'var(--fd)');
   function tile(s, k) {
     return '<div class="site" data-k="' + k + '" data-cursor="' + esc(T.view || 'View') + '" style="' + siteVars(s) + '">' +
-      '<div class="ts-bar"><i></i><i></i><i></i><span>' + esc(s.u) + '</span></div><div class="ts-view">' + sitePage(s, 'tile') + '</div></div>';
+      '<div class="ts-bar"><i></i><i></i><i></i><span><b>nexgen</b>/' + esc(slug(s)) + '</span></div><div class="ts-view">' + sitePage(s, 'tile') + '</div></div>';
   }
 
   safe('phones', () => {
@@ -1135,17 +1231,26 @@ void main(){
     if (!els.length) return;
     const draw = el => {
       const lang = PLANG[+el.dataset.lang % PLANG.length];
+      const id = PSITES[+el.dataset.site % PSITES.length];
       const tag = el.parentNode.querySelector('.ph__tag');
       if (tag) tag.textContent = lang.toUpperCase();
-      el.innerHTML = '<div class="site site--phone" lang="' + (lang === 'ua' ? 'uk' : lang) + '" style="' + siteVars(phoneSite(el.dataset.demo, lang)) + '"><div class="ts-view">' + sitePage(phoneSite(el.dataset.demo, lang), 'phone') + '</div></div>';
+      const s = phoneSite(id, lang);
+      el.innerHTML = '<div class="site site--phone" lang="' + (lang === 'ua' ? 'uk' : lang) + '" style="' + siteVars(s) + '"><div class="ts-view">' + sitePage(s, 'phone') + '</div></div>';
     };
-    els.forEach(draw);
+    els.forEach((el, i) => {
+      el.dataset.site = i;
+      draw(el);
+      // tap a phone to open that site full-screen
+      const ph = el.parentNode;
+      ph.dataset.cursor = T.view || 'View';
+      ph.addEventListener('click', () => { if (openSite) openSite(SITES.findIndex(s => s.id === PSITES[+el.dataset.site % PSITES.length])); });
+    });
     if (reduce) return;
-    // every few seconds one phone flips and shows the same site in the next language
-    // phones take the next languages in turn, so the three screens always show three different languages
+    // each flip brings the next portfolio site in the next language: three different sites, three different languages on screen
     let on = false;
     let k = 0;
     let next = Math.max(...els.map(el => +el.dataset.lang)) + 1;
+    let nextSite = els.length;
     new IntersectionObserver(([e]) => { on = e.isIntersecting; }).observe(els[0].closest('.vis') || els[0]);
     setInterval(() => {
       if (!on || document.hidden) return;
@@ -1155,13 +1260,16 @@ void main(){
       while (used.includes(next % PLANG.length)) next++;
       const lang = next % PLANG.length;
       next++;
+      const site = nextSite % PSITES.length;
+      nextSite++;
       el.parentNode.classList.add('is-flip');
       setTimeout(() => {
         el.dataset.lang = lang;
+        el.dataset.site = site;
         draw(el);
         el.parentNode.classList.remove('is-flip');
       }, 380);
-    }, 2400);
+    }, 2600);
   });
 
   safe('reel', () => {
@@ -1235,7 +1343,7 @@ void main(){
     const show = k => {
       cur = (k + SITES.length) % SITES.length;
       const s = SITES[cur];
-      url.textContent = s.u;
+      url.innerHTML = '<b>nexgen</b>/' + esc(slug(s));
       count.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(SITES.length).padStart(2, '0');
       v.setAttribute('aria-label', s.n);
       scroller.innerHTML = '<div class="site site--full" style="' + siteVars(s) + '">' + sitePage(s, 'modal') + '</div>';
@@ -1271,6 +1379,7 @@ void main(){
       requestAnimationFrame(() => { if (Math.abs(window.scrollY - yOpen) > 2) window.scrollTo(0, yOpen); });
       if (back && back.focus) back.focus({ preventScroll: true });
     };
+    openSite = k => open(k);
     const open = k => {
       openUI(k);
       try { history.pushState({ sv: cur }, '', base() + hashOf(cur)); } catch (e) { /* file:// or sandbox */ }

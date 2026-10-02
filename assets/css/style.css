@@ -484,6 +484,10 @@ html:not(.js) .reel { display: none; }
 .sp-cards article { border-radius: 1.1em; overflow: hidden; background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
 .sp-cards img { height: auto; aspect-ratio: 4 / 3; }
 .sp-cards--prod img { aspect-ratio: 4 / 5; }
+.sp-cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ts-bar span b { font-weight: 800; }
+.sv__url b { color: #fff; font-weight: 800; letter-spacing: .02em; }
+.vis--demos .phone { cursor: pointer; }
 .sp-cards div { display: grid; gap: .3em; padding: .9em 1em 1.1em; }
 .sp-cards b { font-size: .84em; font-weight: 800; }
 .sp-cards span { font-size: .62em; font-weight: 600; opacity: .68; }
