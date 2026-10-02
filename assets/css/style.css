@@ -395,6 +395,8 @@ html.is-ready .globe-mag.is-live { transition: none; }
   .hero__globe { top: 53%; width: min(104vw, 58svh); }
   .hero__bottom { flex-direction: column; align-items: stretch; gap: 18px; }
   .hero__lead { max-width: 30ch; font-size: 17px; }
+  .hero__title { margin-top: clamp(4px, 2vh, 18px); }
+  .hero__kicker { margin-bottom: 8px; }
   .hero__cta { justify-content: stretch; }
   .hero__cta .btn { flex: 1 1 100%; }
 }
@@ -574,7 +576,11 @@ html:not(.js) .reel { display: none; }
 .sv__x:hover { background: rgba(255, 255, 255, .08); }
 .sv__x span { position: absolute; left: 12px; right: 12px; top: 20px; height: 2px; border-radius: 2px; background: var(--ink); transform: rotate(45deg); }
 .sv__x span + span { transform: rotate(-45deg); }
-.sv__scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; container-type: inline-size; -webkit-overflow-scrolling: touch; }
+.sv__scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; container-type: inline-size; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+.sv__scroll[data-dir="next"] > .site { animation: svNext .45s var(--e); }
+.sv__scroll[data-dir="prev"] > .site { animation: svPrev .45s var(--e); }
+@keyframes svNext { from { opacity: 0; transform: translateX(60px); } }
+@keyframes svPrev { from { opacity: 0; transform: translateX(-60px); } }
 .sv__scroll:focus { outline: none; }
 .sv__scroll:focus-visible { outline: 2px solid var(--o); outline-offset: -2px; }
 .site--full { --fs: clamp(12.5px, 2.15cqw, 23px); width: 100%; height: auto; border: 0; border-radius: 0; box-shadow: none; cursor: auto; }

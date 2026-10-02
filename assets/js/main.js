@@ -494,11 +494,10 @@ void main(){
     // clients & AWS regions the arcs fly to (no cities and no routes in Russia; East Asia is reached via the Middle East)
     const VIA = [28, 60];
     const CITIES = [
-      ['Lisbon', 38.72, -9.14], ['Madrid', 40.42, -3.7], ['Barcelona', 41.39, 2.17], ['Paris', 48.86, 2.35], ['London', 51.51, -0.13],
+      ['Lisbon', 38.72, -9.14], ['Porto', 41.15, -8.61, '', 0, 1], ['Madrid', 40.42, -3.7], ['Barcelona', 41.39, 2.17], ['Paris', 48.86, 2.35], ['London', 51.51, -0.13],
       ['Dublin', 53.35, -6.26, 'AWS eu-west-1'], ['Amsterdam', 52.37, 4.9], ['Berlin', 52.52, 13.4], ['Frankfurt', 50.11, 8.68, 'AWS eu-central-1'],
       ['Zurich', 47.37, 8.54], ['Vienna', 48.21, 16.37], ['Rome', 41.9, 12.5], ['Milan', 45.46, 9.19], ['Warsaw', 52.23, 21.01],
-      ['Kyiv', 50.45, 30.52, '', 0, 1], ['Lviv', 49.84, 24.03, '', 0, 1], ['Ivano-Frankivsk', 48.92, 24.71, '', 0, 1], ['Odesa', 46.48, 30.72, '', 0, 1],
-      ['Kharkiv', 49.99, 36.23, '', 0, 1], ['Dnipro', 48.46, 35.05, '', 0, 1], ['Chernihiv', 51.5, 31.29, '', 0, 1], ['Stockholm', 59.33, 18.07], ['Oslo', 59.91, 10.75], ['Copenhagen', 55.68, 12.57], ['Helsinki', 60.17, 24.94],
+      ['Kyiv', 50.45, 30.52, '', 0, 1], ['Stockholm', 59.33, 18.07], ['Oslo', 59.91, 10.75], ['Copenhagen', 55.68, 12.57], ['Helsinki', 60.17, 24.94],
       ['Athens', 37.98, 23.73],
       ['New York', 40.71, -74.01], ['Washington', 38.95, -77.45, 'AWS us-east-1'], ['Miami', 25.76, -80.19], ['Chicago', 41.88, -87.63],
       ['Toronto', 43.65, -79.38], ['Montreal', 45.5, -73.57], ['Vancouver', 49.28, -123.12], ['Calgary', 51.05, -114.07],
@@ -1251,6 +1250,7 @@ void main(){
     const openUI = k => {
       back = document.activeElement;
       yOpen = window.scrollY;
+      scroller.dataset.dir = '';
       show(k);
       v.inert = false;
       v.setAttribute('aria-hidden', 'false');
@@ -1283,9 +1283,25 @@ void main(){
       if (after) { after(); after = null; }
     };
     const step = d => {
+      scroller.dataset.dir = d > 0 ? 'next' : 'prev';
       show(cur + d);
       try { history.replaceState({ sv: cur }, '', base() + hashOf(cur)); } catch (e) { /* ignore */ }
     };
+    // swipe left / right on the opened site flips to the next / previous one (vertical scrolling stays native)
+    let sw = null;
+    scroller.addEventListener('touchstart', e => {
+      const t = e.touches[0];
+      sw = e.touches.length === 1 ? { x: t.clientX, y: t.clientY, t: performance.now() } : null;
+    }, { passive: true });
+    scroller.addEventListener('touchend', e => {
+      if (!sw) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sw.x;
+      const dy = t.clientY - sw.y;
+      const fast = performance.now() - sw.t < 700;
+      sw = null;
+      if (fast && Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.6) step(dx < 0 ? 1 : -1);
+    }, { passive: true });
     window.addEventListener('popstate', e => {
       const st = e.state;
       if (st && st.sv != null) { if (v.classList.contains('is-open')) show(st.sv); else openUI(st.sv); return; }
