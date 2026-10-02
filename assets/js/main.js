@@ -1816,6 +1816,11 @@ void main(){
         location.href = 'viber://chat?number=%2B' + f.dataset.vb;
       });
     }
+    // LinkedIn / Instagram / Facebook: the brief is copied so it can be pasted into a private message
+    $$('[data-dm]', f).forEach(a => a.addEventListener('click', () => {
+      const text = compose();
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => say(T.copied_dm || 'Copied'), () => {});
+    }));
   });
 
   /* ---------- footer giant word ---------- */
