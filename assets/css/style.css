@@ -167,6 +167,23 @@ html:not(.js) .loader { display: none; }
 .btn--tg:hover::after { transform: translateX(120%); }
 .btn--tg:hover { box-shadow: 0 16px 50px -12px rgba(42, 171, 238, .9), inset 4px 4px 12px #0b6fc2; }
 .btn--tg .ico--fill { animation: tgFly 3.2s var(--e) infinite; }
+.btn--vb {
+  color: #fff;
+  background: linear-gradient(123deg, #1d0b4a 7%, #5a3fd6 37%, #7360f2 72%, #b9a6ff 100%);
+  background-size: 160% 160%;
+  box-shadow: 0 10px 34px -12px rgba(115, 96, 242, .8), inset 4px 4px 12px #5a3fd6;
+  outline: 2px solid rgba(255, 255, 255, .9); outline-offset: -3px;
+  animation: gradShift 6s ease-in-out infinite; animation-delay: -1.5s;
+}
+.btn--vb::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .45) 50%, transparent 70%);
+  transform: translateX(-120%); transition: transform .9s var(--e);
+}
+.btn--vb:hover::after { transform: translateX(120%); }
+.btn--vb:hover { box-shadow: 0 16px 50px -12px rgba(140, 120, 255, .95), inset 4px 4px 12px #5a3fd6; }
+.btn--vb .ico--fill { animation: vbRing 3.2s var(--e) infinite; animation-delay: 1.2s; }
+@keyframes vbRing { 0%, 72%, 100% { transform: none; } 78% { transform: rotate(-12deg); } 84% { transform: rotate(10deg); } 90% { transform: rotate(-6deg); } }
 @keyframes tgFly { 0%, 70%, 100% { transform: none; } 80% { transform: translate(3px, -3px) rotate(-8deg); } 90% { transform: translate(-1px, 1px); } }
 .btn--ghost { color: var(--ink); border: 1.5px solid rgba(215, 226, 234, .55); background: rgba(255, 255, 255, .02); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .btn--ghost:hover { background: rgba(215, 226, 234, .1); border-color: #d7e2ea; }
@@ -1162,7 +1179,8 @@ html.js .in .wa p:nth-child(2) { transition-delay: 1.1s; }
   .fab.is-mini { gap: 0; padding: 0 8px; }
   .fab.is-mini .fab__label { max-width: 0; opacity: 0; }
 }
-.fab__ico { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: #25d366; }
+.fab__ico { position: relative; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: conic-gradient(from 210deg, #25d366, #229ed9, #7360f2, #25d366); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .35); }
+.fab__ico::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .55); animation: ping 2.4s var(--e) infinite; }
 .fab__ico svg { width: 22px; height: 22px; }
 @media (min-width: 1081px) { .fab { right: 28px; bottom: 28px; } }
 

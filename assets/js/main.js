@@ -250,6 +250,10 @@
         const top = docTop(a0);
         const h = docTop(a1) + a1.offsetHeight - top;
         dest = Math.max(0, Math.round(top - Math.max(S.vw <= 760 ? 76 : 96, (S.vh - h) / 2)));
+      } else if (target !== doc && target.dataset.anchor === 'bottom') {
+        // the brief: make sure the messenger buttons at its end are on screen
+        const top = docTop(target);
+        dest = Math.max(0, Math.round(Math.max(top - 90, top + target.offsetHeight - S.vh + 24)));
       }
       if (lenis) lenis.scrollTo(dest, { duration: 1.5 });
       else if (typeof dest === 'number') window.scrollTo({ top: dest, behavior: reduce ? 'auto' : 'smooth' });
@@ -1801,6 +1805,15 @@ void main(){
         const text = compose();
         if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => say(T.copied || 'Copied'), () => {});
         window.open('https://t.me/' + tg, '_blank', 'noopener');
+      });
+    }
+    // Viber has no "prefilled text" link for a chat: copy the brief, then open the chat
+    const vbBtn = $('[data-vb]', f);
+    if (vbBtn) {
+      vbBtn.addEventListener('click', () => {
+        const text = compose();
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => say(T.copied_vb || 'Copied'), () => {});
+        location.href = 'viber://chat?number=%2B' + f.dataset.vb;
       });
     }
   });
