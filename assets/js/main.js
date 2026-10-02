@@ -1243,8 +1243,14 @@ void main(){
       scroller.style.background = s.bg;
       scroller.scrollTop = 0;
     };
-    const open = k => {
+    // the opened site is a step in browser history: the phone's Back button (or browser Back) returns to the portfolio
+    const base = () => location.pathname + location.search;
+    const hashOf = k => '#view-' + SITES[(k + SITES.length) % SITES.length].id;
+    let after = null;
+    let yOpen = 0;
+    const openUI = k => {
       back = document.activeElement;
+      yOpen = window.scrollY;
       show(k);
       v.inert = false;
       v.setAttribute('aria-hidden', 'false');
@@ -1253,29 +1259,70 @@ void main(){
       lock(true);
       setTimeout(() => scroller.focus({ preventScroll: true }), 60);
     };
-    const close = () => {
+    const closeUI = () => {
       if (!v.classList.contains('is-open')) return;
       v.classList.remove('is-open');
       doc.classList.remove('sv-open');
       v.setAttribute('aria-hidden', 'true');
       v.inert = true;
       lock(false);
+      // stay exactly where the visitor was in the portfolio
+      if (lenis) lenis.scrollTo(yOpen, { immediate: true, force: true }); else window.scrollTo(0, yOpen);
+      requestAnimationFrame(() => { if (Math.abs(window.scrollY - yOpen) > 2) window.scrollTo(0, yOpen); });
       if (back && back.focus) back.focus({ preventScroll: true });
     };
+    const open = k => {
+      openUI(k);
+      try { history.pushState({ sv: cur }, '', base() + hashOf(cur)); } catch (e) { /* file:// or sandbox */ }
+    };
+    const close = then => {
+      if (!v.classList.contains('is-open')) return;
+      after = then || null;
+      if (history.state && history.state.sv != null) { history.back(); return; }
+      closeUI();
+      if (after) { after(); after = null; }
+    };
+    const step = d => {
+      show(cur + d);
+      try { history.replaceState({ sv: cur }, '', base() + hashOf(cur)); } catch (e) { /* ignore */ }
+    };
+    window.addEventListener('popstate', e => {
+      const st = e.state;
+      if (st && st.sv != null) { if (v.classList.contains('is-open')) show(st.sv); else openUI(st.sv); return; }
+      closeUI();
+      if (after) { const fn = after; after = null; setTimeout(fn, 40); }
+    });
+    // a shared link like /#view-volt opens that site straight away; Back then lands on the portfolio
+    const deep = SITES.findIndex(s => location.hash === '#view-' + s.id);
+    if (deep >= 0) {
+      try { history.replaceState(null, '', base()); } catch (e) { /* ignore */ }
+      setTimeout(() => open(deep), 300);
+    }
     box.addEventListener('click', e => {
       const t = e.target.closest('.site[data-k]');
       if (t) open(+t.dataset.k);
     });
     v.addEventListener('click', e => {
+      const cta = e.target.closest('a[href="#contact"]');
+      if (cta) {
+        e.preventDefault();
+        e.stopPropagation();
+        const target = $('#contact');
+        close(() => {
+          if (lenis) lenis.scrollTo(target, { duration: 1.5 });
+          else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+        });
+        return;
+      }
       if (e.target.closest('[data-close]')) close();
       const st = e.target.closest('[data-step]');
-      if (st) show(cur + +st.dataset.step);
+      if (st) step(+st.dataset.step);
     });
     document.addEventListener('keydown', e => {
       if (!v.classList.contains('is-open')) return;
       if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowRight') show(cur + 1);
-      else if (e.key === 'ArrowLeft') show(cur - 1);
+      else if (e.key === 'ArrowRight') step(1);
+      else if (e.key === 'ArrowLeft') step(-1);
       else if (e.key === 'Tab') {
         const f = $$('button, a[href], [tabindex="0"]', v);
         const i = f.indexOf(document.activeElement);
